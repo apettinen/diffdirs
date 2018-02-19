@@ -20,6 +20,25 @@ Outputs either XML or JSON.
 
 ```whatsnewinmacos.py [-h] [-o ORIG_DIR] [-n NEW_DIR] [-b BLOCKSIZE] [-s OUTFILE] [-v] [-filecmp | -common | -sha256]```
 
+*Arguments:*
+```
+  -h, --help            show this help message and exit
+  -o ORIG_DIR, --path-to-original ORIG_DIR
+                        Path to directory containing original files (e.g.
+                        older OS version)
+  -n NEW_DIR, --path-to-new NEW_DIR
+                        Path to directory containing new files (e.g. newer OS
+                        version)
+  -b BLOCKSIZE, --blocksize BLOCKSIZE
+                        Blocksize for sha256
+  -s OUTFILE, --save-output OUTFILE
+                        Save output to a JSON file
+  -v, --verbose         Print output
+  -filecmp              Compare using filecmp only
+  -common               Compare using filecmp and use sha256 has for common
+                        files
+  -sha256               Compare by sha256 only
+```
 License: Apache 2.0
 
 Copyright (c) 2018 Antti Pettinen, 2017 Tampere University of Technology
