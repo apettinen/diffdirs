@@ -14,6 +14,6 @@ Uses ```filecmp``` and/or sha256 hashes to determine if file has been changed.
 
 Outputs either XML or JSON.
 
-MIT License
+License: Apache 2.0
 
-Copyright (c) 2018 Antti Pettinen
+Copyright (c) 2018 Antti Pettinen, 2017 Tampere University of Technology
