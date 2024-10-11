@@ -4,17 +4,17 @@
 """
 Tool to check differences in files between two directories. Suitable for e.g.
 checking if update has changed something. Goes through directory listings
-(relative paths) and does comparison of files with same paths via filecmp.cmp or alternatively by sha256 hash.
+(relative paths) and does comparison of files with same paths via filecmp.cmp
+or alternatively by sha256 hash.
 
 Antti Pettinen (@apettinen)
 
-Copyright: 
+Copyright:
 2018 Antti Pettinen
 2017 Tampere University of Technology
 
 License: Apache 2.0
 """
-#from __future__ import print_function
 import os
 import sys
 import argparse
@@ -22,12 +22,15 @@ import filecmp
 from json import dump as jdump
 from hashlib import sha256
 
+
 class comparisonException(Exception):
     """Raise this when error"""
 
+
 class dirInfo(object):
     """
-    Directory to analyze as an object. Contains a list of files in directory (recursive) and a dictionary of fileInfo object of each file
+    Directory to analyze as an object. Contains a list of files in directory
+    (recursive) and a dictionary of fileInfo object of each file
     """
 
     def __init__(self, dirpath, blocksize=65536, skip_files_list=None):
@@ -41,12 +44,16 @@ class dirInfo(object):
         self.skip_files_list = skip_files_list
 
     def get_files_in_dir(self):
-        '''wrapper for os.walk and os.path to get the relative paths of files'''
+        """
+        wrapper for os.walk and os.path to get the relative paths of filesi
+        """
         files_in_dir = []
         try:
             for root, _dirs, files in os.walk(self.dirpath):
                 for current_file in files:
-                    files_in_dir.append(os.path.relpath(os.path.join(root, current_file), self.dirpath))
+                    files_in_dir.append(
+                        os.path.relpath(
+                            os.path.join(root, current_file), self.dirpath))
         except Exception as cex:
             raise comparisonException(cex)
         return files_in_dir
@@ -57,11 +64,13 @@ class dirInfo(object):
             self.skip_files_list = []
         for file_in_dir in self.files_in_dir:
             if file_in_dir not in self.skip_files_list:
-                self.file_infos[file_in_dir] = fileInfo(os.path.join(self.dirpath, file_in_dir), self.blocksize)
+                self.file_infos[file_in_dir] = fileInfo(
+                    os.path.join(self.dirpath, file_in_dir), self.blocksize)
         return self.file_infos
 
     def generate_hashes(self):
-        """Generate hashes for all files in directory structure, returning a dict of relative file name and its hash"""
+        """Generate hashes for all files in directory structure,
+        returning a dict of relative file name and its hash"""
         if not self.skip_files_list:
             self.skip_files_list = []
         if not self.file_infos:
@@ -71,18 +80,24 @@ class dirInfo(object):
                 self.dict_of_hashes[fi] = self.file_infos[fi].get_sha256_hash()
         return self.dict_of_hashes
 
+
 class fileInfo(object):
-    """File object containing information, such as sha256 hash and stat. sha256 hash is not generated during init, but can be generated and stored in the object later"""
+    """
+    File object containing information, such as sha256 hash and stat.
+    sha256 hash is not generated during init, but can be generated and
+    stored in the object later
+    """
     def __init__(self, filepath, blocksize=65536):
         self.filepath = filepath
         self.blocksize = blocksize
-        #self.hash = self.get_sha256_hash(self.filepath)
         self.hash = ""
         self.stat = self.get_posix_stat()
 
     def get_sha256_hash(self):
-        '''Compute SHA256 hash of a file, with configurable blocksize (defaults to 65536)'''
-        #sha256hasher = sha256()
+        """
+        Compute SHA256 hash of a file, with configurable blocksize
+        (defaults to 65536)
+        """
         # don't compute the hash again:
         if not self.hash:
             try:
@@ -104,10 +119,15 @@ class fileInfo(object):
         else:
             return None
 
+
 def compare_directories(orig_dir_files, new_dir_files):
-    '''Compare the contents of two directories to see what file names exist only in the orig_dir or new_dir or file names that exist in new_dir and orig_dir.'''
+    """
+    Compare the contents of two directories to see what file names exist only
+    in the orig_dir or new_dir or file names that exist in new_dir
+    and orig_dir.
+    """
     try:
-        orig_only_files = [orig_file for orig_file in orig_dir_files if orig_file not in new_dir_files]
+        (orig_only_files = [orig_file for orig_file in orig_dir_files if orig_file not in new_dir_files]
         new_files = [new_file for new_file in new_dir_files if new_file not in orig_dir_files]
         common_files = [common_file for common_file in new_dir_files if common_file in orig_dir_files]
     except Exception as cex:
