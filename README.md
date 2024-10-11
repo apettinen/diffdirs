@@ -18,7 +18,7 @@ Outputs either XML or JSON.
 
 #### Usage:
 
-```whatsnewinmacos.py [-h] [-o ORIG_DIR] [-n NEW_DIR] [-b BLOCKSIZE] [-s OUTFILE] [-v] [-filecmp | -common | -sha256]```
+```diffdirs.py [-h] [-o ORIG_DIR] [-n NEW_DIR] [-b BLOCKSIZE] [-s OUTFILE] [-v] [-filecmp | -common | -sha256]```
 
 *Arguments:*
 ```
