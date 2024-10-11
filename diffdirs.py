@@ -127,7 +127,7 @@ def compare_directories(orig_dir_files, new_dir_files):
     and orig_dir.
     """
     try:
-        (orig_only_files = [orig_file for orig_file in orig_dir_files if orig_file not in new_dir_files]
+        orig_only_files = [orig_file for orig_file in orig_dir_files if orig_file not in new_dir_files]
         new_files = [new_file for new_file in new_dir_files if new_file not in orig_dir_files]
         common_files = [common_file for common_file in new_dir_files if common_file in orig_dir_files]
     except Exception as cex:
